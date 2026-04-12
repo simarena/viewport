@@ -28,13 +28,5 @@
   "devDependencies": {
     "@types/three": "^0.183.1",
     "typescript": "^6.0.2"
-  },
-  "peerDependencies": {
-    "three": "^0.170.0"
-  },
-  "peerDependenciesMeta": {
-    "three": {
-      "optional": true
-    }
   }
 }

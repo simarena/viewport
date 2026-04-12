@@ -11,3 +11,5 @@ export { buildBodyIdx, applyTransforms, flattenBodies, restoreBodies } from './s
 export type { BodySnapshot } from './sync.js';
 export { loadBodies, connectSim } from './sync.js';
 export type { BodyInfo, LoadBodiesOpts, LoadBodiesResult, SimOpts, SimHandle } from './sync.js';
+
+export type { SimScene, SimFrame, Contact, SimSource } from './types.js';
