@@ -43,15 +43,30 @@ export interface SimFrame {
 	output?: unknown;
 }
 
+// ── Commands (consumer → backend) ─────────────────────────────────────────────
+export type SimCommand =
+	| { type: 'start'; scene: unknown }
+	| { type: 'stop' }
+	| { type: 'reset' }
+	| { type: 'ctrl'; values: Float64Array }
+	| { type: 'command'; values: Float32Array }
+	| { type: 'pause' }
+	| { type: 'resume' };
+
+// ── Events (backend → consumer) ───────────────────────────────────────────────
+export type SimEvent =
+	| { type: 'scene'; data: SimScene }
+	| { type: 'frame'; data: SimFrame }
+	| { type: 'status'; text: string }
+	| { type: 'error'; message: string };
+
 export interface SimSource {
-	onScene(cb: (msg: SimScene) => void): void;
-	onFrame(cb: (frame: SimFrame) => void): void;
-	onStatus(cb: (status: string) => void): void;
-	/** scene is SceneDoc in practice; typed unknown to avoid format dependency. */
+	send(cmd: SimCommand): void;
+	on(type: 'scene', cb: (data: SimScene) => void): void;
+	on(type: 'frame', cb: (data: SimFrame) => void): void;
+	on(type: 'status', cb: (text: string) => void): void;
+	on(type: 'error', cb: (message: string) => void): void;
+	/** Sends { type: 'start' } and resolves when the 'scene' event arrives. */
 	start(scene: unknown): Promise<void>;
-	sendCtrl(values: Float64Array): void;
-	sendCommand(values: Float32Array): void;
-	reset(): void;
-	stop(): void;
 	close(): void;
 }
